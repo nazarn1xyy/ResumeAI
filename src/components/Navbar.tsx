@@ -25,15 +25,15 @@ export default function Navbar() {
 
     const updateThemeColor = (theme: "light" | "dark") => {
         const color = theme === "dark" ? "#121212" : "#ffffff";
-        const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) {
-            meta.setAttribute("content", color);
-        } else {
-            const newMeta = document.createElement("meta");
-            newMeta.name = "theme-color";
-            newMeta.content = color;
-            document.head.appendChild(newMeta);
-        }
+
+        // Remove existing meta tags to avoid conflicts with Next.js viewport export
+        const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
+        existingMetas.forEach(meta => meta.remove());
+
+        const newMeta = document.createElement("meta");
+        newMeta.name = "theme-color";
+        newMeta.content = color;
+        document.head.appendChild(newMeta);
     };
 
     useEffect(() => {
