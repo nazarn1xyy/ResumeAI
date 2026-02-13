@@ -24,7 +24,7 @@ export default function Navbar() {
     const { user, logout } = useAuth();
 
     const updateThemeColor = (theme: "light" | "dark") => {
-        const color = theme === "dark" ? "#121212" : "#f5f5f5";
+        const color = theme === "dark" ? "#121212" : "#ffffff";
         const meta = document.querySelector('meta[name="theme-color"]');
         if (meta) {
             meta.setAttribute("content", color);
