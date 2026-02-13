@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
     HiOutlineSparkles,
@@ -80,7 +80,7 @@ const initialData: ResumeData = {
 
 type TemplateType = "modern" | "classic" | "creative";
 
-export default function BuilderPage() {
+function BuilderContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { user } = useAuth();
@@ -968,5 +968,13 @@ export default function BuilderPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function BuilderPage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading builder...</div>}>
+            <BuilderContent />
+        </Suspense>
     );
 }
