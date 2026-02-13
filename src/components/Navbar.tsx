@@ -23,10 +23,24 @@ export default function Navbar() {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const { user, logout } = useAuth();
 
+    const updateThemeColor = (theme: "light" | "dark") => {
+        const color = theme === "dark" ? "#121212" : "#f5f5f5";
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            meta.setAttribute("content", color);
+        } else {
+            const newMeta = document.createElement("meta");
+            newMeta.name = "theme-color";
+            newMeta.content = color;
+            document.head.appendChild(newMeta);
+        }
+    };
+
     useEffect(() => {
-        const saved = localStorage.getItem("resumeai_theme") || "dark";
-        setTheme(saved as "dark" | "light");
+        const saved = (localStorage.getItem("resumeai_theme") as "dark" | "light") || "dark";
+        setTheme(saved);
         document.documentElement.setAttribute("data-theme", saved);
+        updateThemeColor(saved);
     }, []);
 
     const toggleTheme = () => {
@@ -34,6 +48,7 @@ export default function Navbar() {
         setTheme(next);
         localStorage.setItem("resumeai_theme", next);
         document.documentElement.setAttribute("data-theme", next);
+        updateThemeColor(next);
     };
 
     const handleLogout = () => {
